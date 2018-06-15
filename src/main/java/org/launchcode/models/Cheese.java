@@ -36,6 +36,13 @@ public class Cheese {
 
     public Cheese() { }
 
+    @PreRemove
+    public void removeCheeseFromMenus(){
+        for(Menu m : menus) {
+            m.getCheeses().remove(this);
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -62,5 +69,9 @@ public class Cheese {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
     }
 }

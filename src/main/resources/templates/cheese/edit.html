@@ -5,33 +5,30 @@
 <h1 th:text="${title}">Default Title</h1>
 
 <nav th:replace="fragments :: navigation"></nav>
-
 <form method="post" style="max-width:600px;" th:object="${cheese}">
     <div class="form-group">
         <label th:for="name">Name</label>
-        <input class="form-control" th:field="*{name}" />
+        <input class="form-control" th:value="*{name}" th:field="*{name}" />
         <span th:errors="*{name}" class="error"></span>
     </div>
     <div class="form-group">
         <label th:for="description">Description</label>
-        <input class="form-control" th:field="*{description}" />
+        <input class="form-control" th:value="*{description}" th:field="*{description}" />
         <span th:errors="*{description}" class="error"></span>
     </div>
 
     <div class="form-group">
         <label th:for="type">Type</label>
-        <select th:field="*{category}">
+        <select th:field="*{category}" th:value="*{category}">
             <option th:each="category : ${categories}"
                     th:text="${category.name}"
                     th:value="${category.id}"></option>
         </select>
     </div>
 
-    <input th:unless="${#lists.size(categories) > 0}" disabled="" type="submit" value="Add Cheese" />
-    <small style="color:red" th:unless="${#lists.size(categories) > 0}">Cannot add cheese without type.</small>
-    <input th:if="${#lists.size(categories) > 0}" type="submit" value="Add Cheese" />
-
+    <input th:unless="${#lists.size(categories) > 0}" disabled="" type="submit" value="Edit Cheese" />
+    <small style="color:red" th:unless="${#lists.size(categories) > 0}">Cannot edit cheese without type.</small>
+    <input th:if="${#lists.size(categories) > 0}" type="submit" value="Edit Cheese" />
 </form>
-
 </body>
 </html>

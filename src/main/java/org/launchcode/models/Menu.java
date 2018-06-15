@@ -1,9 +1,6 @@
 package org.launchcode.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -19,6 +16,13 @@ public class Menu {
     private int id;
     @ManyToMany
     private List<Cheese> cheeses = new ArrayList<>();
+
+    @PreRemove
+    public void removeCheeseFromMenus(){
+        for(Cheese c : cheeses) {
+            c.getMenus().remove(this);
+        }
+    }
 
     //Getters and Setters
     public String getName() {

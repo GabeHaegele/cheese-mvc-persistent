@@ -36,6 +36,29 @@ public class CheeseController {
         return "cheese/index";
     }
 
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+    public String displayEditCheeseForm(Model model, @PathVariable Integer id) {
+        model.addAttribute("title", "Edit Cheese");
+        model.addAttribute("cheese", cheeseDao.findOne(id));
+        model.addAttribute("categories", categoryDao.findAll());
+        return "cheese/edit";
+    }
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
+    public String processEditCheeseForm(@ModelAttribute  @Valid Cheese newCheese,
+                                       Errors errors, Model model, @PathVariable Integer id) {
+
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Edit Cheese");
+            model.addAttribute("categories", categoryDao.findAll());
+            return "cheese/edit";
+        }
+        cheeseDao.findOne(id).setCategory(newCheese.getCategory());
+        cheeseDao.findOne(id).setDescription(newCheese.getDescription());
+        cheeseDao.findOne(id).setName(newCheese.getName());
+        cheeseDao.save(cheeseDao.findOne(id));
+        return "redirect:/cheese";
+    }
+
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddCheeseForm(Model model) {
         model.addAttribute("title", "Add Cheese");
@@ -46,16 +69,14 @@ public class CheeseController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddCheeseForm(@ModelAttribute  @Valid Cheese newCheese,
-                                       Errors errors, @RequestParam int categoryId, Model model) {
+                                       Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Cheese");
-            model.addAttribute("categories", categoryDao.findAll());
+            model.addAttribute("categories", null);
             return "cheese/add";
         }
 
-        Category cat = categoryDao.findOne(categoryId);
-        newCheese.setCategory(cat);
         cheeseDao.save(newCheese);
         return "redirect:";
     }
