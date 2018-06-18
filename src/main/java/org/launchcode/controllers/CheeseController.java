@@ -2,8 +2,10 @@ package org.launchcode.controllers;
 
 import org.launchcode.models.Category;
 import org.launchcode.models.Cheese;
+import org.launchcode.models.Menu;
 import org.launchcode.models.data.CategoryDao;
 import org.launchcode.models.data.CheeseDao;
+import org.launchcode.models.data.MenuDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class CheeseController {
 
     @Autowired
     CategoryDao categoryDao;
+
+    @Autowired
+    MenuDao menuDao;
 
     // Request path: /cheese
     @RequestMapping(value = "")
@@ -108,5 +113,14 @@ public class CheeseController {
         model.addAttribute("category", cat);
         return "cheese/index";
     }
+    @RequestMapping(value = "menu/{id}", method = RequestMethod.GET)
+    public String menu(Model model, @PathVariable Integer id) {
 
+        Menu menu = menuDao.findOne(id);
+        List<Cheese> cheeses = menu.getCheeses();
+        model.addAttribute("cheeses", cheeses);
+        model.addAttribute("title", "Cheeses in Menu: " + menu.getName());
+        model.addAttribute("menu", menu);
+        return "cheese/index";
+    }
 }
