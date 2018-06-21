@@ -49,7 +49,7 @@ public class MenuController {
         }
 
         menuDao.save(newMenu);
-        return "redirect:view/" + newMenu.getId();
+        return "redirect:/cheese/menu/" + newMenu.getId();
     }
 
     @RequestMapping(value = "add-item/{id}", method = RequestMethod.GET)

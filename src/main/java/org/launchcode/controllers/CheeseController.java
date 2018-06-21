@@ -37,7 +37,7 @@ public class CheeseController {
 
         model.addAttribute("cheeses", cheeseDao.findAll());
         model.addAttribute("title", "My Cheeses");
-
+        model.addAttribute("cheaterBoolean", false);
         return "cheese/index";
     }
 
@@ -121,6 +121,7 @@ public class CheeseController {
         model.addAttribute("cheeses", cheeses);
         model.addAttribute("title", "Cheeses in Menu: " + menu.getName());
         model.addAttribute("menu", menu);
+        model.addAttribute("cheaterBoolean", true);
         return "cheese/index";
     }
 }

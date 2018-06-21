@@ -28,8 +28,11 @@
 
 </table>
 <nav>
-    <a href="/cheese/add">Add</a> |
-    <a href="/cheese/remove">Remove</a>
+    <a th:if="${cheaterBoolean}" th:href="'/menu/add-item/'+ ${menu.id}">Add Cheese To Menu</a>
+    <div th:unless="${cheaterBoolean}">
+        <a href="/cheese/add">Add</a> |
+        <a href="/cheese/remove">Remove</a>
+    </div>
 </nav>
 </body>
 </html>
